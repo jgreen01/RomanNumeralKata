@@ -14,8 +14,13 @@ describe("Arabic numberal to Roman numeral", function() {
   });
 
   it("Five", function() {
-    var result = a2r.arabicToRoman(3);
+    var result = a2r.arabicToRoman(5);
     expect(result).toEqual('V');
+  });
+
+  it("Eight", function() {
+    var result = a2r.arabicToRoman(8);
+    expect(result).toEqual('VIII');
   });
 
   xit("Nine", function() {
