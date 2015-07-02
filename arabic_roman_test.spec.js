@@ -8,7 +8,7 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('I');
   });
 
-  xit("Three", function() {
+  it("Three", function() {
     var result = a2r.arabicToRoman(3);
     expect(result).toEqual('III');
   });
