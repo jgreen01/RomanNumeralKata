@@ -23,6 +23,11 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('VIII');
   });
 
+  it("Four", function() {
+    var result = a2r.arabicToRoman(4);
+    expect(result).toEqual('IV');
+  });
+
   xit("Nine", function() {
     var result = a2r.arabicToRoman(9);
     expect(result).toEqual('IX');
