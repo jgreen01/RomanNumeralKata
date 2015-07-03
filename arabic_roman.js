@@ -34,7 +34,7 @@ AR.prototype.arabicToRoman = function(input) {
 
     if(num%5 === 4)
       output += 'IV';
-    else if (num/5 === Math.floor(input/5))
+    else if (num/5 === Math.floor(num/5))
       output += 'V';
     else if (num/5 > 1){
       output += 'V';
