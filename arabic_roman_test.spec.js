@@ -88,6 +88,16 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('XL');
   });
 
+  it("Fifty", function() {
+    var result = a2r.arabicToRoman(50);
+    expect(result).toEqual('L');
+  });
+
+  it("Sixty", function() {
+    var result = a2r.arabicToRoman(60);
+    expect(result).toEqual('LX');
+  });
+
   xit("1066", function() {
     var result = a2r.arabicToRoman(1066);
     expect(result).toEqual('MLXVI');
