@@ -4,10 +4,13 @@ AR.prototype.arabicToRoman = function(input) {
 
   var result = '';
 
-  var one_roman = 'I', five_roman = 'V',
-      ten_roman = 'X', fifty_roman = 'L',
-      one_hundred_roman = 'C', five_hundred_roman = 'D',
-      one_thousand_roman = 'M';
+  var roman = ['I','V','X','L','C','D','M'];
+
+  var one_roman = roman[0], five_roman = roman[1],
+      ten_roman = roman[2], fifty_roman = roman[3],
+      one_hundred_roman = roman[4], five_hundred_roman = roman[5],
+      one_thousand_roman = roman[6];
+
 
   result += underNinety(input);
 
@@ -25,36 +28,38 @@ AR.prototype.arabicToRoman = function(input) {
     return singleNumerals(num,1,five_roman,one_roman);
   }
 
-  function underForty(num){
+  function underForty(num,base,symbol){
     var output = '';
 
-    if (num/10 === Math.floor(num/10))
-      output += add_tens(Math.floor(num/10));
-    else if (num/10 - Math.floor(num/10) > 0) {
-      output += add_tens(Math.floor(num/10));
-      if(num%10 === 9)
-        output += 'IX';
+    if (num/base === Math.floor(num/base))
+      output += repeatableNumerals(Math.floor(num/base),symbol);
+    else if (num/base - Math.floor(num/base) > 0) {
+      output += repeatableNumerals(Math.floor(num/base),symbol);
+      if (num%base === 9)
+        output += roman[roman.indexOf(symbol)-2] + roman[roman.indexOf(symbol)-1];
       else
-        output += underNine(num - 10*Math.floor(num/10));
+        output += singleNumerals(num,base/10,roman[roman.indexOf(symbol)-1],roman[roman.indexOf(symbol)-2]);
     }
 
     return output;
   }
 
   function underNinety(num){
-    return singleNumerals(num,10,fifty_roman,ten_roman);
+    return singleNumerals(num,10,fifty_roman);
   }
 
-  function singleNumerals(num,base,symbol,symbol_below){
-    var output = '';
+  function singleNumerals(num,base,symbol){
+    var output = '', symbol_below = roman[roman.indexOf(symbol)-1];
 
     if(num%(5*base) === 4*base)
       output += symbol_below + symbol
-    else if (num/(5*base) === Math.floor(num/(5*base)))
-      output += symbol;
+    //else if (num/(5*base) === Math.floor(num/(5*base)))
+    //  output += symbol;
+    else if (num < 4*base) // at 4 and 9 is when new symbols are added
+      output += underForty(num - 5*base);
     else {
       output += symbol;
-      output += underForty(num - 5*base);
+      output += underForty(num - 5*base,base,symbol_below);
       //output += repeatableNumerals(Math.floor(num/base)-5 ,symbol_below);
     }
     //else
