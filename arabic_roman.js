@@ -9,13 +9,14 @@ AR.prototype.arabicToRoman = function(input) {
       one_hundred_roman = 'C', five_hundred_roman = 'D',
       one_thousand_roman = 'M';
 
-  if(input%10 === 9)
-    result += 'IX';
-  else if (input/10 === Math.floor(input/10))
+  if (input/10 === Math.floor(input/10))
     result += tens(Math.floor(input/10));
-  else if (input/10 - Math.floor(input/10) > 0 && !(input%10 === 9)){
+  else if (input/10 - Math.floor(input/10) > 0) {
     result += tens(Math.floor(input/10));
-    result += underNine(input - 10*Math.floor(input/10));
+    if(input%10 === 9)
+      result += 'IX';
+    else
+      result += underNine(input - 10*Math.floor(input/10));
   }
 
   return result;
