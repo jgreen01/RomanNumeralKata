@@ -63,6 +63,31 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('XIX');
   });
 
+  it("Twenty", function() {
+    var result = a2r.arabicToRoman(20);
+    expect(result).toEqual('XX');
+  });
+
+  it("Thirty", function() {
+    var result = a2r.arabicToRoman(30);
+    expect(result).toEqual('XXX');
+  });
+
+  it("Thirty eight", function() {
+    var result = a2r.arabicToRoman(38);
+    expect(result).toEqual('XXXVIII');
+  });
+
+  it("Thirty nine", function() {
+    var result = a2r.arabicToRoman(39);
+    expect(result).toEqual('XXXIX');
+  });
+
+  it("Forty", function() {
+    var result = a2r.arabicToRoman(40);
+    expect(result).toEqual('XL');
+  });
+
   xit("1066", function() {
     var result = a2r.arabicToRoman(1066);
     expect(result).toEqual('MLXVI');
