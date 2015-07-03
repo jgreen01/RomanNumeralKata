@@ -13,6 +13,11 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('III');
   });
 
+  it("Four", function() {
+    var result = a2r.arabicToRoman(4);
+    expect(result).toEqual('IV');
+  });
+
   it("Five", function() {
     var result = a2r.arabicToRoman(5);
     expect(result).toEqual('V');
@@ -23,14 +28,19 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('VIII');
   });
 
-  it("Four", function() {
-    var result = a2r.arabicToRoman(4);
-    expect(result).toEqual('IV');
-  });
-
-  xit("Nine", function() {
+  it("Nine", function() {
     var result = a2r.arabicToRoman(9);
     expect(result).toEqual('IX');
+  });
+
+  it("Ten", function() {
+    var result = a2r.arabicToRoman(10);
+    expect(result).toEqual('X');
+  });
+
+  it("Thirteen", function() {
+    var result = a2r.arabicToRoman(13);
+    expect(result).toEqual('XIII');
   });
 
   xit("1066", function() {
