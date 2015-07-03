@@ -11,16 +11,6 @@ AR.prototype.arabicToRoman = function(input) {
 
   result += underNinety(input);
 
-  /*if (input/10 === Math.floor(input/10))
-    result += tens(Math.floor(input/10));
-  else if (input/10 - Math.floor(input/10) > 0) {
-    result += tens(Math.floor(input/10));
-    if(input%10 === 9)
-      result += 'IX';
-    else
-      result += underNine(input - 10*Math.floor(input/10));
-  }*/
-
   return result;
 
   function add_ones(num){
@@ -35,6 +25,22 @@ AR.prototype.arabicToRoman = function(input) {
     return singleNumerals(num,1,five_roman,one_roman);
   }
 
+  function underForty(num){
+    var output = '';
+
+    if (num/10 === Math.floor(num/10))
+      output += add_tens(Math.floor(num/10));
+    else if (num/10 - Math.floor(num/10) > 0) {
+      output += add_tens(Math.floor(num/10));
+      if(num%10 === 9)
+        output += 'IX';
+      else
+        output += underNine(num - 10*Math.floor(num/10));
+    }
+
+    return output;
+  }
+
   function underNinety(num){
     return singleNumerals(num,10,fifty_roman,ten_roman);
   }
@@ -46,12 +52,13 @@ AR.prototype.arabicToRoman = function(input) {
       output += symbol_below + symbol
     else if (num/(5*base) === Math.floor(num/(5*base)))
       output += symbol;
-    else if (num/(5*base) > 1){
+    else {
       output += symbol;
-      output += repeatableNumerals(Math.floor(num/base)-5 ,symbol_below);
+      output += underForty(num - 5*base);
+      //output += repeatableNumerals(Math.floor(num/base)-5 ,symbol_below);
     }
-    else
-      output += repeatableNumerals(num%(5*base),symbol_below);
+    //else
+    //  output += repeatableNumerals(num%(5*base),symbol_below);
 
     return output;
   }
