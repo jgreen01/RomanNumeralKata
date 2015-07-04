@@ -3,12 +3,12 @@ var AR = require('./arabic_roman.js');
 describe("Arabic numberal to Roman numeral", function() {
   var a2r = new AR();
 
-  it("One", function() {
+  it("One. Offical Test.", function() {
     var result = a2r.arabicToRoman(1);
     expect(result).toEqual('I');
   });
 
-  it("Three", function() {
+  it("Three. Offical Test.", function() {
     var result = a2r.arabicToRoman(3);
     expect(result).toEqual('III');
   });
@@ -28,7 +28,7 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('VIII');
   });
 
-  it("Nine", function() {
+  it("Nine. Offical Test.", function() {
     var result = a2r.arabicToRoman(9);
     expect(result).toEqual('IX');
   });
@@ -128,13 +128,54 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('CDIV');
   });
 
-  it("1066", function() {
+  it("555", function() {
+    var result = a2r.arabicToRoman(555);
+    expect(result).toEqual('DLV');
+  });
+
+  it("846", function() {
+    var result = a2r.arabicToRoman(846);
+    expect(result).toEqual('DCCCXLVI');
+  });
+
+  it("927", function() {
+    var result = a2r.arabicToRoman(927);
+    expect(result).toEqual('CMXXVII');
+  });
+
+  it("1008", function() {
+    var result = a2r.arabicToRoman(1008);
+    expect(result).toEqual('MVIII');
+  });
+
+  it("1066. Offical Test.", function() {
     var result = a2r.arabicToRoman(1066);
     expect(result).toEqual('MLXVI');
   });
 
-  it("1989", function() {
+  it("1989. Offical Test.", function() {
     var result = a2r.arabicToRoman(1989);
     expect(result).toEqual('MCMLXXXIX');
   });
+
+  it("1999", function() {
+    var result = a2r.arabicToRoman(1999);
+    expect(result).toEqual('MCMXCIX');
+  });
+
+  it("2420", function() {
+    var result = a2r.arabicToRoman(2420);
+    expect(result).toEqual('MMCDXX');
+  });
+
+  it("3888", function() {
+    var result = a2r.arabicToRoman(3888);
+    expect(result).toEqual('MMMDCCCLXXXVIII');
+  });
+
+  it("3999", function() {
+    var result = a2r.arabicToRoman(3999);
+    expect(result).toEqual('MMMCMXCIX');
+  });
+
 });
