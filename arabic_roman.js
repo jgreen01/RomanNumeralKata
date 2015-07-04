@@ -20,11 +20,6 @@ AR.prototype.arabicToRoman = function(input) {
       num -= Math.floor(num/base)*base; // the remainder of num/base
     }
 
-    if(num/(5*(base/10)) >= 1) { // add fives ie single numerals
-      output += symbols[1]; // V
-      num -= 5*(base/10);
-    }
-
     if(num%5*(base/10) === 4) {
       if(num%base === 9) {
         output += symbols[2] + symbols[0]; // IX
@@ -33,6 +28,11 @@ AR.prototype.arabicToRoman = function(input) {
         output += symbols[2] + symbols[1]; // IV
         num -= 4*(base/10); // ?right?
       }
+    }
+
+    if(num/(5*(base/10)) >= 1) { // add fives ie single numerals
+      output += symbols[1]; // V
+      num -= 5*(base/10);
     }
 
     console.log('output: ' + output + ' num: ' + num);
