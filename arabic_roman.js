@@ -4,12 +4,44 @@ AR.prototype.arabicToRoman = function(input) {
 
   var result = '';
 
-  var roman = ['I','V','X','L','C','D','M'];
 
-  var one_roman = roman[0], five_roman = roman[1],
-      ten_roman = roman[2], fifty_roman = roman[3],
-      one_hundred_roman = roman[4], five_hundred_roman = roman[5],
-      one_thousand_roman = roman[6];
+  var roman = ['I','IV','V','IX','X','XL','L','XC','C','CD','XC','XD','D','CM','XM','M'];
+
+
+
+  function doit(num,base,symbol){
+
+    var output = '';
+
+    if(num/base > 1) { // add 10^?s ie repeatable numberals
+      output += repeatableNumerals(Math.floor(num/base),symbol[0]); // XXX
+      num -= Math.floor(num/base)*base; // the remainder of num/base
+      //symbol.pop(); // or w/e
+    }
+
+    if(num/(5*(base/10)) > 1) { // add fives ie single numerals
+      output += symbol[1]; // V
+      num -= 5*(base/10);
+    }
+
+    if(num%5*(base/10) === 4) {
+      if(num%base === 9) {
+        output += symbol[2] + symbol[0]; // IX
+        num -= 9*(base/10); // ?right?
+      } else {
+        output += symbol[2] + symbol[1]; // IV
+        num -= 4*(base/10); // ?right?
+      }
+    }
+
+    if(num !== 0){
+      result += doit(num,base/10,symbol);
+    } else {
+      return result;
+    }
+  }
+
+
 
 
   result += underForty(input);
