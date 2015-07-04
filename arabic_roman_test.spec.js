@@ -1,11 +1,16 @@
 var AR = require('./arabic_roman.js');
 
-describe("Arabic numberal to Roman numeral", function() {
+describe("Arabic numeral to Roman numeral", function() {
   var a2r = new AR();
 
   it("One. Offical Test.", function() {
     var result = a2r.arabicToRoman(1);
     expect(result).toEqual('I');
+  });
+
+  it("Two", function() {
+    var result = a2r.arabicToRoman(2);
+    expect(result).toEqual('II');
   });
 
   it("Three. Offical Test.", function() {
@@ -21,6 +26,16 @@ describe("Arabic numberal to Roman numeral", function() {
   it("Five", function() {
     var result = a2r.arabicToRoman(5);
     expect(result).toEqual('V');
+  });
+
+  it("Six", function() {
+    var result = a2r.arabicToRoman(6);
+    expect(result).toEqual('VI');
+  });
+
+  it("Seven", function() {
+    var result = a2r.arabicToRoman(7);
+    expect(result).toEqual('VII');
   });
 
   it("Eight", function() {
