@@ -88,22 +88,22 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('XL');
   });
 
-  xit("Fifty", function() {
+  it("Fifty", function() {
     var result = a2r.arabicToRoman(50);
     expect(result).toEqual('L');
   });
 
-  xit("Sixty", function() {
+  it("Sixty", function() {
     var result = a2r.arabicToRoman(60);
     expect(result).toEqual('LX');
   });
 
-  xit("1066", function() {
+  it("1066", function() {
     var result = a2r.arabicToRoman(1066);
     expect(result).toEqual('MLXVI');
   });
 
-  xit("1989", function() {
+  it("1989", function() {
     var result = a2r.arabicToRoman(1989);
     expect(result).toEqual('MCMLXXXIX');
   });

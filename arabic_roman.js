@@ -15,13 +15,13 @@ AR.prototype.arabicToRoman = function(input) {
 
     console.log('symbol_arr: ' + symbols.toString() + ' base: ' + base + ' num: ' + num);
 
-    if(num/base >= 1) { // add 10^?s ie repeatable numberals
+    if(num/base >= 1 && Math.floor(num/base) < 4) { // add 10^?s ie repeatable numberals
       output += repeatableNumerals(Math.floor(num/base),symbols[0]); // XXX
       num -= Math.floor(num/base)*base; // the remainder of num/base
     }
 
-    if(num%5*(base/10) === 4) {
-      if(num%base === 9) {
+    if(num%(5*(base/10)) === 4*(base/10)) {
+      if(num%base === 9*(base/10)) {
         output += symbols[2] + symbols[0]; // IX
         num -= 9*(base/10); // ?right?
       } else {
@@ -37,7 +37,7 @@ AR.prototype.arabicToRoman = function(input) {
 
     console.log('output: ' + output + ' num: ' + num);
 
-    if(num !== 0){
+    if(num !== 0 && symbols.length !== 0){
       symbols.shift(); symbols.shift();
       output += a2r(num,base/10,symbols);
     }
