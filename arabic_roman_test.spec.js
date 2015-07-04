@@ -33,67 +33,67 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('IX');
   });
 
-  it("Ten", function() {
+  xit("Ten", function() {
     var result = a2r.arabicToRoman(10);
     expect(result).toEqual('X');
   });
 
-  it("Thirteen", function() {
+  xit("Thirteen", function() {
     var result = a2r.arabicToRoman(13);
     expect(result).toEqual('XIII');
   });
 
-  it("Fourteen", function() {
+  xit("Fourteen", function() {
     var result = a2r.arabicToRoman(14);
     expect(result).toEqual('XIV');
   });
 
-  it("Fifteen", function() {
+  xit("Fifteen", function() {
     var result = a2r.arabicToRoman(15);
     expect(result).toEqual('XV');
   });
 
-  it("Eighteen", function() {
+  xit("Eighteen", function() {
     var result = a2r.arabicToRoman(18);
     expect(result).toEqual('XVIII');
   });
 
-  it("Nineteen", function() {
+  xit("Nineteen", function() {
     var result = a2r.arabicToRoman(19);
     expect(result).toEqual('XIX');
   });
 
-  it("Twenty", function() {
+  xit("Twenty", function() {
     var result = a2r.arabicToRoman(20);
     expect(result).toEqual('XX');
   });
 
-  it("Thirty", function() {
+  xit("Thirty", function() {
     var result = a2r.arabicToRoman(30);
     expect(result).toEqual('XXX');
   });
 
-  it("Thirty eight", function() {
+  xit("Thirty eight", function() {
     var result = a2r.arabicToRoman(38);
     expect(result).toEqual('XXXVIII');
   });
 
-  it("Thirty nine", function() {
+  xit("Thirty nine", function() {
     var result = a2r.arabicToRoman(39);
     expect(result).toEqual('XXXIX');
   });
 
-  it("Forty", function() {
+  xit("Forty", function() {
     var result = a2r.arabicToRoman(40);
     expect(result).toEqual('XL');
   });
 
-  it("Fifty", function() {
+  xit("Fifty", function() {
     var result = a2r.arabicToRoman(50);
     expect(result).toEqual('L');
   });
 
-  it("Sixty", function() {
+  xit("Sixty", function() {
     var result = a2r.arabicToRoman(60);
     expect(result).toEqual('LX');
   });
