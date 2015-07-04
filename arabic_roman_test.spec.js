@@ -98,6 +98,36 @@ describe("Arabic numberal to Roman numeral", function() {
     expect(result).toEqual('LX');
   });
 
+  it("Eighty", function() {
+    var result = a2r.arabicToRoman(80);
+    expect(result).toEqual('LXXX');
+  });
+
+  it("Ninety", function() {
+    var result = a2r.arabicToRoman(90);
+    expect(result).toEqual('XC');
+  });
+
+  it("101", function() {
+    var result = a2r.arabicToRoman(101);
+    expect(result).toEqual('CI');
+  });
+
+  it("212", function() {
+    var result = a2r.arabicToRoman(212);
+    expect(result).toEqual('CCXII');
+  });
+
+  it("353", function() {
+    var result = a2r.arabicToRoman(353);
+    expect(result).toEqual('CCCLIII');
+  });
+
+  it("404", function() {
+    var result = a2r.arabicToRoman(404);
+    expect(result).toEqual('CDIV');
+  });
+
   it("1066", function() {
     var result = a2r.arabicToRoman(1066);
     expect(result).toEqual('MLXVI');
