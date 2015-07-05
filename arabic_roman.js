@@ -19,9 +19,9 @@ AR.prototype.arabicToRoman = function(input, numerals) {
       fourBelow = 4*baseBelow, nineBelow = 9*baseBelow,
       numOverBase = input/base, numOverBaseRounded = Math.floor(numOverBase);
 
-  // if has repeatable numerals ie I, X, C, or M
+  // if input has repeatable numerals ie I, X, C, or M
   if(numOverBase >= 1 && numOverBaseRounded < 4) {
-    output += this._repeatableNumerals(numOverBaseRounded,numerals[0]);
+    for( var i = 0; i < numOverBaseRounded; i++) output += numerals[0];
     input %= base;
   }
 
@@ -47,15 +47,6 @@ AR.prototype.arabicToRoman = function(input, numerals) {
     numerals.shift(); numerals.shift(); // remove top two numeral from array
     output += this.arabicToRoman(input,numerals);
   }
-
-  return output;
-}
-
-AR.prototype._repeatableNumerals = function(num,symbol){
-  var output = '';
-
-  for( var i = 0; i < num; i++)
-    output += symbol;
 
   return output;
 }
