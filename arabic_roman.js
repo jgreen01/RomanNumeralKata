@@ -1,63 +1,63 @@
-var AR = function() {};
+var AR = function() {
+  this._romanNumerals = ['M','D','C','L','X','V','I'];
+};
 
-AR.prototype.arabicToRoman = function(input) {
-
-  var roman = ['M','D','C','L','X','V','I'];
-
-  return a2r(input,roman);
-
-  /** Converts arabic numbers to roman numerals given a base and an array of symbols.
-
-    input: A number less that 4 times the base.
-    base: The value of the largest numeral. Must be a power of ten.
-    symbols: An array of roman numerals arranged highest to lowest. First numeral must be a power of ten.
+/** Converts arabic numbers to roman numerals given an array of numerals.
+  *
+  *  input: A number less that 4 times the value of the largest numeral.
+  *  numerals: An array of roman numerals arranged highest to lowest. First/largest numeral must be a power of ten.
   */
-  function a2r(num,symbols){
+AR.prototype.arabicToRoman = function(input, numerals) {
 
-    var output = '', base = Math.pow(10,Math.floor(symbols.length/2))
-    , baseBelow = base/10,
-        fiveBelow = 5*baseBelow, fourBelow = 4*baseBelow,
-        nineBelow = 9*baseBelow, numOverBase = num/base,
-        numOverBaseRounded = numOverBaseRounded;
+  // if numerals aren't provided copy _romanNumerals
+  if (typeof(numerals)==='undefined') numerals = this._romanNumerals.concat();
 
-    console.log('base: ' + base);
+  var output = '',
+      base = Math.pow(10,Math.floor(numerals.length/2)), // base: The value of the largest numeral.
+      // optimized code to use the fewest number of calculations
+      baseBelow = base/10, fiveBelow = 5*baseBelow,
+      fourBelow = 4*baseBelow, nineBelow = 9*baseBelow,
+      numOverBase = input/base, numOverBaseRounded = Math.floor(numOverBase);
 
-    if(numOverBase >= 1 && numOverBaseRounded < 4) { // if has repeatable numerals ie I, X, C, or M
-      output += repeatableNumerals(numOverBaseRounded,symbols[0]);
-      num %= base;
-    }
+  // if has repeatable numerals ie I, X, C, or M
+  if(numOverBase >= 1 && numOverBaseRounded < 4) {
+    output += this._repeatableNumerals(numOverBaseRounded,numerals[0]);
+    input %= base;
+  }
 
-    if(num%fiveBelow >= fourBelow) { // if is a nine or four
-      if(num%base >= nineBelow) {
-        output += symbols[2] + symbols[0]; // ie IX
-        num -= nineBelow;
-      } else {
-        output += symbols[2] + symbols[1]; // ie IV
-        num -= fourBelow;
-      }
-    }
-
-    if(num/fiveBelow >= 1) { // if has single numeral ie V
-      output += symbols[1]; // V
-      num -= fiveBelow;
-    }
-
-    if(num !== 0 && symbols.length !== 0){
-      symbols.shift(); symbols.shift();
-      output += a2r(num,symbols);
-    }
-
-    return output;
-
-    function repeatableNumerals(num,symbol){
-      var output = '';
-
-      for( var i = 0; i < num; i++)
-        output += symbol;
-
-      return output;
+  // if input is a nine or four
+  if(input%fiveBelow >= fourBelow) { // input%5 >= 4 is always true for input%10 >= 9
+    // if input is nine
+    if(input%base >= nineBelow) {
+      output += numerals[2] + numerals[0]; // ie IX
+      input -= nineBelow;
+    } else {
+      output += numerals[2] + numerals[1]; // ie IV
+      input -= fourBelow;
     }
   }
+
+  // if input has a five numeral ie single numeral
+  if(input/fiveBelow >= 1) {
+    output += numerals[1]; // V, L , D
+    input -= fiveBelow;
+  }
+
+  if(input !== 0 && numerals.length !== 0){
+    numerals.shift(); numerals.shift(); // remove top two numeral from array
+    output += this.arabicToRoman(input,numerals);
+  }
+
+  return output;
+}
+
+AR.prototype._repeatableNumerals = function(num,symbol){
+  var output = '';
+
+  for( var i = 0; i < num; i++)
+    output += symbol;
+
+  return output;
 }
 
 module.exports = AR;
