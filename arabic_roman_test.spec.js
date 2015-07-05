@@ -193,4 +193,29 @@ describe("Arabic numeral to Roman numeral", function() {
     expect(result).toEqual('MMMCMXCIX');
   });
 
+  it("I to 1. Offical Test.", function() {
+    var result = a2r.romanToArabic('I');
+    expect(result).toEqual(1);
+  });
+
+  it("III to 3. Offical Test.", function() {
+    var result = a2r.romanToArabic('III');
+    expect(result).toEqual(3);
+  });
+
+  it("IX to 9. Offical Test.", function() {
+    var result = a2r.romanToArabic('IX');
+    expect(result).toEqual(9);
+  });
+
+  xit("MLXVI to 1066. Offical Test.", function() {
+    var result = a2r.romanToArabic('MLXVI');
+    expect(result).toEqual(1066);
+  });
+
+  xit("MCMLXXXIX to 1989. Offical Test.", function() {
+    var result = a2r.romanToArabic('MCMLXXXIX');
+    expect(result).toEqual(1989);
+  });
+
 });

@@ -51,4 +51,18 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   return output;
 }
 
+AR.prototype.romanToArabic = function(input, numerals) {
+
+  // if numerals aren't provided copy _romanNumerals
+  if (typeof(numerals)==='undefined') numerals = this._romanNumerals.concat();
+
+  var output = 0,
+      base = Math.pow(10,Math.floor(numerals.length/2)); // base: The value of the largest numeral.
+
+  // repeatable numerals ie I, X, C, or M
+  for(var i = 0; input[i] === 'I'; i++) output += 1;
+
+  return output;
+}
+
 module.exports = AR;
