@@ -66,6 +66,12 @@ AR.prototype.romanToArabic = function(input, numerals) {
       baseBelow = Math.floor(base/10), fiveBelow = 5*baseBelow,
       fourBelow = 4*baseBelow, nineBelow = 9*baseBelow;
 
+  // repeatable numerals ie I, X, C, or M
+  while(input[0] === numerals[0]){
+    output += base;
+    input.shift();
+  }
+
   // if input is possibly a IV or IX
   if(input[0] === numerals[2]){
     // if input is IX
@@ -78,12 +84,6 @@ AR.prototype.romanToArabic = function(input, numerals) {
       output += fourBelow;
       input.shift(); input.shift();
     }
-  }
-
-  // repeatable numerals ie I, X, C, or M
-  while(input[0] === numerals[0]){
-    output += base;
-    input.shift();
   }
 
   // if input is a V
