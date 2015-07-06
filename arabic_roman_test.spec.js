@@ -208,12 +208,12 @@ describe("Arabic numeral to Roman numeral", function() {
     expect(result).toEqual(9);
   });
 
-  xit("MLXVI to 1066. Offical Test.", function() {
+  it("MLXVI to 1066. Offical Test.", function() {
     var result = a2r.romanToArabic('MLXVI');
     expect(result).toEqual(1066);
   });
 
-  xit("MCMLXXXIX to 1989. Offical Test.", function() {
+  it("MCMLXXXIX to 1989. Offical Test.", function() {
     var result = a2r.romanToArabic('MCMLXXXIX');
     expect(result).toEqual(1989);
   });
