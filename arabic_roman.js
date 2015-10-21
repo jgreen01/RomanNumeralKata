@@ -14,16 +14,16 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   if (typeof(numerals)==='undefined') numerals = this._romanNumerals.concat();
 
   var output = '',
-      power = Math.pow(10,Math.floor(numerals.length/2)), // power: The value of the largest numeral.
+      power = this._largestNumeralValue(numerals),
       // optimized code to use the fewest number of calculations
       powerBelow = power/10, fiveBelow = 5*powerBelow,
       fourBelow = 4*powerBelow, numOvrPwr = input/power;
 
   // if input has repeatable numerals ie I, X, C, or M
-  if(numOvrPwr >= 1 && numOvrPwr < 4) {
-    for( var i = 0, numOvrPwrRnd = Math.floor(numOvrPwr); i < numOvrPwrRnd; i++)
+  if(input/power >= 1 && input/power < 4) {
+    for( var i = 0, inOvrPwr = Math.floor(input/power); i < inOvrPwr; (function() { i++; input %= power;}()))
       output += numerals[0];
-    input %= power;
+    //input %= power;
   }
 
   // if input is a nine or four
@@ -53,7 +53,6 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   return output;
 }
 
-
 /** Converts roman numerals to arabic numbers given an array of numerals.
   *
   *  input: A string of roman numerals less that 4 times the value of the largest numeral in the numerals array.
@@ -69,7 +68,7 @@ AR.prototype.romanToArabic = function(input, numerals) {
   if (typeof(input) === 'string') input = input.split('');
 
   var output = 0,
-      power = Math.pow(10,Math.floor(numerals.length/2)); // power: The value of the largest numeral.
+      power = this._largestNumeralValue(numerals);
 
   // repeatable numerals ie I, X, C, or M
   while(input[0] === numerals[0]){
@@ -103,6 +102,10 @@ AR.prototype.romanToArabic = function(input, numerals) {
   }
 
   return output;
+}
+
+AR.prototype._largestNumeralValue = function(numerals) {
+  return Math.pow(10,Math.floor(numerals.length/2));
 }
 
 module.exports = AR;
