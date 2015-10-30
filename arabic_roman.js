@@ -5,7 +5,7 @@ var AR = function() {
 /** Converts arabic numbers to roman numerals given an array of numerals.
   *
   *  input: A number less that 4 times the value of the largest numeral in the numerals array.
-  *  numerals: (optional) An array of roman numerals arranged highest to lowest. First/largest numeral
+  *  numerals: (optional) An array of numerals arranged highest to lowest. First/largest numeral
   *    must be a power of ten and array must have an odd number of elements.
   */
 AR.prototype.arabicToRoman = function(input, numerals) {
@@ -14,36 +14,16 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   if (typeof(numerals)==='undefined') numerals = this._romanNumerals.concat();
 
   var output = '',
-      power = this._largestNumeralValue(numerals),
-      // optimized code to use the fewest number of calculations
-      powerBelow = power/10, fiveBelow = 5*powerBelow,
-      fourBelow = 4*powerBelow, numOvrPwr = input/power;
+      power = this._largestNumeralValue(numerals);
 
-  // if input has repeatable numerals ie I, X, C, or M
-  if(input/power >= 1 && input/power < 4) {
-    for( var i = 0, inOvrPwr = Math.floor(input/power); i < inOvrPwr; (function() { i++; input %= power;}()))
-      output += numerals[0];
-    //input %= power;
-  }
+  if(input/power >= 1 && input/power < 4) // if input has repeatable numerals
+    output += repeatableNumerals();  // ie I, X, C, or M
 
-  // if input is a nine or four
-  if(input%fiveBelow >= fourBelow) { // input%5 >= 4 is always true for input%10 >= 9
-    var nineBelow = 9*powerBelow;
-    // if input is nine
-    if(input%power >= nineBelow) {
-      output += numerals[2] + numerals[0]; // ie IX
-      input -= nineBelow;
-    } else {
-      output += numerals[2] + numerals[1]; // ie IV
-      input -= fourBelow;
-    }
-  }
+  if(input%(5*(power/10)) >= 4*(power/10)) // if input is a nine or four 
+    output += nineOrFourNumerals(); // input%5 >= 4 is always true for input%10 >= 9
 
-  // if input has a five numeral ie single numeral
-  if(input/fiveBelow >= 1) {
-    output += numerals[1]; // V, L , D
-    input -= fiveBelow;
-  }
+  if(input/(5*(power/10)) >= 1) // if input has a five numeral ie single numeral 
+    output += fiveNumerals();
 
   if(input !== 0 && numerals.length !== 0){
     numerals.shift(); numerals.shift(); // remove the two largest numeral from array
@@ -51,6 +31,41 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   }
 
   return output;
+
+  function fiveNumerals() {
+    var result = '';
+
+    result += numerals[1]; // V, L , D
+    input -= 5*(power/10);
+
+    return result;
+  }
+
+  function nineOrFourNumerals() {
+    var result = '';
+
+    // if input is nine
+    if(input%power >= 9*(power/10)) {
+      result += numerals[2] + numerals[0]; // ie IX
+      input -= 9*(power/10);
+    } else {
+      result += numerals[2] + numerals[1]; // ie IV
+      input -= 4*(power/10);
+    }
+
+    return result;
+  }
+
+  function repeatableNumerals() {
+    var result = '';
+
+    for( var i = 0, inOvrPwr = Math.floor(input/power); i < inOvrPwr; i++ ){
+      result += numerals[0];
+      input %= power;
+    }
+
+    return result;
+  }
 }
 
 /** Converts roman numerals to arabic numbers given an array of numerals.
