@@ -124,10 +124,10 @@ AR.prototype.romanToArabic = function(input, numerals) {
   * 
   * Every power of ten in roman numerals uses two numerals. Therefore, given the length of an array
   * of numerals we can figure out the value of the largest numeral (ie highest power of ten).
-  *   e.g.  10^(size/2 - 1)  // keep in mind 'I' or 1 is included
+  *   e.g.  10^((size-1)/2)  // keep in mind 'I' or 1 is included
   */
 AR.prototype._largestNumeralValue = function(numerals) {
-  return Math.pow(10,Math.floor(numerals.length/2));
+  return Math.pow(10,(numerals.length-1)/2);
 }
 
 module.exports = AR;
