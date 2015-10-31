@@ -25,8 +25,9 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   if(input/(5*(power/10)) >= 1) // if input has a five numeral ie single numeral 
     output += fiveNumerals();
 
-  if(input !== 0 && numerals.length !== 0){
-    numerals.shift(); numerals.shift(); // remove the two largest numeral from array
+  if(numerals.length !== 0){
+    numerals.shift(); // reduces the size of the array by a power of 10
+    numerals.shift(); // by removing the two largest numeral from array
     output += this.arabicToRoman(input,numerals);
   }
 
@@ -59,10 +60,10 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   function repeatableNumerals() {
     var result = '';
 
-    for( var i = 0, inOvrPwr = Math.floor(input/power); i < inOvrPwr; i++ ){
+    for( var i = 0, inOvrPwr = Math.floor(input/power); i < inOvrPwr; i++ )
       result += numerals[0];
-      input %= power;
-    }
+
+    input %= power; // subtracts all repeatable
 
     return result;
   }
@@ -119,6 +120,12 @@ AR.prototype.romanToArabic = function(input, numerals) {
   return output;
 }
 
+/** Finds the value of the largest numeral
+  * 
+  * Every power of ten in roman numerals uses two numerals. Therefore, given the length of an array
+  * of numerals we can figure out the value of the largest numeral (ie highest power of ten).
+  *   e.g.  10^(size/2 - 1)  // keep in mind 'I' or 1 is included
+  */
 AR.prototype._largestNumeralValue = function(numerals) {
   return Math.pow(10,Math.floor(numerals.length/2));
 }
