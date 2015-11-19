@@ -17,17 +17,29 @@ AR.prototype.arabicToRoman = function(input, numerals) {
       largestNumeral = this._largestNumeralValue(numerals),
       that = this;
 
-  if(input/largestNumeral >= 1 && input/largestNumeral < 4) // if input has repeatable numerals
+  if(input/largestNumeral >= 1 && input/largestNumeral < 4){ // if input has repeatable numerals
     output += repeatableNumerals();  // ie I, X, C, or M
+    output += this.arabicToRoman(input % largestNumeral,numerals);
+  }
 
-  if(input%(5*(largestNumeral/10)) >= 4*(largestNumeral/10)) // if input is a nine or four 
-    output += nineOrFourNumerals(); // input%5 >= 4 is always true for input%10 >= 9
+  else if(input%(5*(largestNumeral/10)) >= 4*(largestNumeral/10)){ // if input is a nine or four 
+    if(input%largestNumeral >= 9*(largestNumeral/10)) {
+      output += nineNumerals();
+      input -= 9*(largestNumeral/10);
+    } else {
+      output += fourNumerals();
+      input -= 4*(largestNumeral/10);
+    }
+    output += this.arabicToRoman(input,numerals);
+  }
 
-  if(input/(5*(largestNumeral/10)) >= 1) // if input has a five numeral ie single numeral 
+  else if(input/(5*(largestNumeral/10)) >= 1){ // if input has a five numeral ie single numeral 
     output += fiveNumerals();
+    output += this.arabicToRoman(input - 5*(largestNumeral/10),numerals);
+  }
 
-  if(numerals.length !== 0){
-    numerals.shift(); // reduces the size of the array by a largestNumeral of 10
+  else if(numerals.length !== 0){
+    numerals.shift(); // reduces the size of the array by a power of 10
     numerals.shift(); // by removing the two largest numeral from array
     output += this.arabicToRoman(input,numerals);
   }
@@ -35,38 +47,22 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   return output;
 
   function fiveNumerals() {
-    var result = '';
-
-    result += numerals[1]; // V, L , D
-    input -= 5*(largestNumeral/10);
-
-    return result;
+    return numerals[1];
   }
 
-  function nineOrFourNumerals() {
-    var result = '';
+  function fourNumerals() {
+    return numerals[2] + numerals[1];
+  }
 
-    // if input is nine
-    if(input%largestNumeral >= 9*(largestNumeral/10)) {
-      result += numerals[2] + numerals[0]; // ie IX
-      input -= 9*(largestNumeral/10);
-    } else {
-      result += numerals[2] + numerals[1]; // ie IV
-      input -= 4*(largestNumeral/10);
-    }
-
-    return result;
+  function nineNumerals() {
+    return numerals[2] + numerals[0];
   }
 
   function repeatableNumerals() {
     var result = '';
 
-    for( var i = 0, inOvrPwr = Math.floor(input/largestNumeral); i < inOvrPwr; i++ ) {
+    for( var i = 0, inOvrPwr = Math.floor(input/largestNumeral); i < inOvrPwr; i++ )
       result += numerals[0];
-      input -= largestNumeral;
-    }
-    
-    //input %= largestNumeral; // subtracts all repeatable
 
     return result;
   }
