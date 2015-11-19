@@ -6,7 +6,7 @@ var AR = function() {
   *
   *  input: A number less that 4 times the value of the largest numeral in the numerals array.
   *  numerals: (optional) An array of numerals arranged highest to lowest. First/largest numeral
-  *    must be a power of ten and array must have an odd number of elements.
+  *    must be a largestNumeral of ten and array must have an odd number of elements.
   */
 AR.prototype.arabicToRoman = function(input, numerals) {
 
@@ -14,19 +14,20 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   if (typeof(numerals)==='undefined') numerals = this._romanNumerals.concat();
 
   var output = '',
-      power = this._largestNumeralValue(numerals);
+      largestNumeral = this._largestNumeralValue(numerals),
+      that = this;
 
-  if(input/power >= 1 && input/power < 4) // if input has repeatable numerals
+  if(input/largestNumeral >= 1 && input/largestNumeral < 4) // if input has repeatable numerals
     output += repeatableNumerals();  // ie I, X, C, or M
 
-  if(input%(5*(power/10)) >= 4*(power/10)) // if input is a nine or four 
+  if(input%(5*(largestNumeral/10)) >= 4*(largestNumeral/10)) // if input is a nine or four 
     output += nineOrFourNumerals(); // input%5 >= 4 is always true for input%10 >= 9
 
-  if(input/(5*(power/10)) >= 1) // if input has a five numeral ie single numeral 
+  if(input/(5*(largestNumeral/10)) >= 1) // if input has a five numeral ie single numeral 
     output += fiveNumerals();
 
   if(numerals.length !== 0){
-    numerals.shift(); // reduces the size of the array by a power of 10
+    numerals.shift(); // reduces the size of the array by a largestNumeral of 10
     numerals.shift(); // by removing the two largest numeral from array
     output += this.arabicToRoman(input,numerals);
   }
@@ -37,7 +38,7 @@ AR.prototype.arabicToRoman = function(input, numerals) {
     var result = '';
 
     result += numerals[1]; // V, L , D
-    input -= 5*(power/10);
+    input -= 5*(largestNumeral/10);
 
     return result;
   }
@@ -46,12 +47,12 @@ AR.prototype.arabicToRoman = function(input, numerals) {
     var result = '';
 
     // if input is nine
-    if(input%power >= 9*(power/10)) {
+    if(input%largestNumeral >= 9*(largestNumeral/10)) {
       result += numerals[2] + numerals[0]; // ie IX
-      input -= 9*(power/10);
+      input -= 9*(largestNumeral/10);
     } else {
       result += numerals[2] + numerals[1]; // ie IV
-      input -= 4*(power/10);
+      input -= 4*(largestNumeral/10);
     }
 
     return result;
@@ -60,10 +61,12 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   function repeatableNumerals() {
     var result = '';
 
-    for( var i = 0, inOvrPwr = Math.floor(input/power); i < inOvrPwr; i++ )
+    for( var i = 0, inOvrPwr = Math.floor(input/largestNumeral); i < inOvrPwr; i++ ) {
       result += numerals[0];
-
-    input %= power; // subtracts all repeatable
+      input -= largestNumeral;
+    }
+    
+    //input %= largestNumeral; // subtracts all repeatable
 
     return result;
   }
@@ -73,7 +76,7 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   *
   *  input: A string of roman numerals less that 4 times the value of the largest numeral in the numerals array.
   *  numerals: (optional) An array of roman numerals arranged highest to lowest. First/largest numeral
-  *    must be a power of ten and array must have an odd number of elements.
+  *    must be a largestNumeral of ten and array must have an odd number of elements.
   */
 AR.prototype.romanToArabic = function(input, numerals) {
 
@@ -84,11 +87,11 @@ AR.prototype.romanToArabic = function(input, numerals) {
   if (typeof(input) === 'string') input = input.split('');
 
   var output = 0,
-      power = this._largestNumeralValue(numerals);
+      largestNumeral = this._largestNumeralValue(numerals);
 
   // repeatable numerals ie I, X, C, or M
   while(input[0] === numerals[0]){
-    output += power;
+    output += largestNumeral;
     input.shift();
   }
 
@@ -96,19 +99,19 @@ AR.prototype.romanToArabic = function(input, numerals) {
   if(input[0] === numerals[2]){ // e.g. input[0] == 'I' while the largest numeral (numerals[0]) is 'X'
     // if input is IX
     if(input[1] === numerals[0]){ // the next numeral is the largest numeral
-      output += 9*Math.floor(power/10);
+      output += 9*(largestNumeral/10);
       input.shift(); input.shift();
     }
     // if input is IV
     else if(input[1] === numerals[1]){ // the next numeral is the second largest numeral
-      output += 4*Math.floor(power/10);
+      output += 4*(largestNumeral/10);
       input.shift(); input.shift();
     }
   }
 
   // if input is a V
   if(input[0] === numerals[1]){
-    output += 5*Math.floor(power/10);
+    output += 5*(largestNumeral/10);
     input.shift();
   }
 
@@ -117,13 +120,13 @@ AR.prototype.romanToArabic = function(input, numerals) {
     output += this.romanToArabic(input,numerals);
   }
 
-  return output;
+  return Math.floor(output);
 }
 
 /** Finds the value of the largest numeral
   * 
-  * Every power of ten in roman numerals uses two numerals. Therefore, given the length of an array
-  * of numerals we can figure out the value of the largest numeral (ie highest power of ten).
+  * Every largestNumeral of ten in roman numerals uses two numerals. Therefore, given the length of an array
+  * of numerals we can figure out the value of the largest numeral (ie highest largestNumeral of ten).
   *   e.g.  10^((size-1)/2)  // keep in mind 'I' or 1 is included
   */
 AR.prototype._largestNumeralValue = function(numerals) {
