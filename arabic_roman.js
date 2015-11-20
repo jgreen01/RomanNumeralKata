@@ -18,7 +18,7 @@ AR.prototype.arabicToRoman = function(input, numerals) {
       that = this;
 
   if(input/largestNumeral >= 1 && input/largestNumeral < 4){ // if input has repeatable numerals
-    output += repeatableNumerals();  // ie I, X, C, or M
+    output += repeatableNumerals(Math.floor(input/largestNumeral));  // ie I, X, C, or M
     output += this.arabicToRoman(input % largestNumeral,numerals);
   }
 
@@ -58,10 +58,10 @@ AR.prototype.arabicToRoman = function(input, numerals) {
     return numerals[2] + numerals[0];
   }
 
-  function repeatableNumerals() {
+  function repeatableNumerals(count) {
     var result = '';
 
-    for( var i = 0, inOvrPwr = Math.floor(input/largestNumeral); i < inOvrPwr; i++ )
+    for( var i = 0; i < count; i++ )
       result += numerals[0];
 
     return result;
