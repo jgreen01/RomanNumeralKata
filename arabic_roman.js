@@ -59,12 +59,7 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   }
 
   function repeatableNumerals(count) {
-    var result = '';
-
-    for( var i = 0; i < count; i++ )
-      result += numerals[0];
-
-    return result;
+    return numerals[0].repeat(count);
   }
 }
 
