@@ -13,38 +13,32 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   // if numerals aren't provided copy _romanNumerals
   if (typeof(numerals)==='undefined') numerals = this._romanNumerals.concat();
 
-  var output = '',
-      largestNumeral = this._largestNumeralValue(numerals),
-      that = this;
+  var largestNumeral = this._largestNumeralValue(numerals);
 
   if(input/largestNumeral >= 1 && input/largestNumeral < 4){ // if input has repeatable numerals
-    output += repeatableNumerals(Math.floor(input/largestNumeral));  // ie I, X, C, or M
-    output += this.arabicToRoman(input % largestNumeral,numerals);
+    return repeatableNumerals(Math.floor(input/largestNumeral))  // ie I, X, C, or M
+    + this.arabicToRoman(input % largestNumeral,numerals);
   }
 
   else if(input%(5*(largestNumeral/10)) >= 4*(largestNumeral/10)){ // if input is a nine or four 
     if(input%largestNumeral >= 9*(largestNumeral/10)) {
-      output += nineNumerals();
-      input -= 9*(largestNumeral/10);
+      return nineNumerals() + this.arabicToRoman(input - 9*(largestNumeral/10),numerals);
     } else {
-      output += fourNumerals();
-      input -= 4*(largestNumeral/10);
+      return fourNumerals() + this.arabicToRoman(input - 4*(largestNumeral/10),numerals);
     }
-    output += this.arabicToRoman(input,numerals);
   }
 
   else if(input/(5*(largestNumeral/10)) >= 1){ // if input has a five numeral ie single numeral 
-    output += fiveNumerals();
-    output += this.arabicToRoman(input - 5*(largestNumeral/10),numerals);
+    return fiveNumerals() + this.arabicToRoman(input - 5*(largestNumeral/10),numerals);
   }
 
   else if(numerals.length !== 0){
     numerals.shift(); // reduces the size of the array by a power of 10
-    numerals.shift(); // by removing the two largest numeral from array
-    output += this.arabicToRoman(input,numerals);
+    numerals.shift(); // by removing the two largest numerals from array
+    return this.arabicToRoman(input,numerals);
   }
 
-  return output;
+  return '';
 
   function fiveNumerals() {
     return numerals[1];
