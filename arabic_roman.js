@@ -13,48 +13,37 @@ AR.prototype.arabicToRoman = function(input, numerals) {
   // if numerals aren't provided copy _romanNumerals
   if (typeof(numerals)==='undefined') numerals = this._romanNumerals.concat();
 
+  return this._auxA2R(input, numerals, '');
+}
+
+/** Tail Recursive Arabic to Roman Algorithm **/
+AR.prototype._auxA2R = function(input, numerals, result) {
   var largestNumeral = this._largestNumeralValue(numerals);
 
   if(input/largestNumeral >= 1 && input/largestNumeral < 4){ // if input has repeatable numerals
-    return repeatableNumerals(Math.floor(input/largestNumeral))  // ie I, X, C, or M
-    + this.arabicToRoman(input % largestNumeral,numerals);
+    return this._auxA2R(input % largestNumeral, numerals, // ie I, X, C, or M
+      result + numerals[0].repeat(Math.floor(input/largestNumeral)));
   }
 
   else if(input%(5*(largestNumeral/10)) >= 4*(largestNumeral/10)){ // if input is a nine or four 
     if(input%largestNumeral >= 9*(largestNumeral/10)) {
-      return nineNumerals() + this.arabicToRoman(input - 9*(largestNumeral/10),numerals);
+      return this._auxA2R(input - 9*(largestNumeral/10), numerals, result + numerals[2] + numerals[0]);
     } else {
-      return fourNumerals() + this.arabicToRoman(input - 4*(largestNumeral/10),numerals);
+      return this._auxA2R(input - 4*(largestNumeral/10), numerals, result + numerals[2] + numerals[1]);
     }
   }
 
   else if(input/(5*(largestNumeral/10)) >= 1){ // if input has a five numeral ie single numeral 
-    return fiveNumerals() + this.arabicToRoman(input - 5*(largestNumeral/10),numerals);
+    return this._auxA2R(input - 5*(largestNumeral/10), numerals, result + numerals[1]);
   }
 
   else if(numerals.length !== 0){
     numerals.shift(); // reduces the size of the array by a power of 10
     numerals.shift(); // by removing the two largest numerals from array
-    return this.arabicToRoman(input,numerals);
+    return this._auxA2R(input, numerals, result);
   }
 
-  return '';
-
-  function fiveNumerals() {
-    return numerals[1];
-  }
-
-  function fourNumerals() {
-    return numerals[2] + numerals[1];
-  }
-
-  function nineNumerals() {
-    return numerals[2] + numerals[0];
-  }
-
-  function repeatableNumerals(count) {
-    return numerals[0].repeat(count);
-  }
+  return result;
 }
 
 /** Converts roman numerals to arabic numbers given an array of numerals.
